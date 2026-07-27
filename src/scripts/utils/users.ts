@@ -33,6 +33,7 @@ export default class Users {
     }
 
     public errorLogger(err: any) {
+        console.error(err)
         throw new Error(err)
     }
 
