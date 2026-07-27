@@ -6,5 +6,5 @@ export default interface User {
     email: string
     acc_status: 'Pending' | 'Approved' | 'Inactive'
     reg_type: string
-    location:string
+    location: string
 }
