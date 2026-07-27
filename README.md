@@ -73,3 +73,5 @@ export default defineConfig([
 ])
 
 ```
+# atlasadmin
+Admin module for Atlas
