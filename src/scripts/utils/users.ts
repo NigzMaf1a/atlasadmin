@@ -1,34 +1,46 @@
-//interfaces
+//types
 import type User from "../interfaces/user";
 import type Role from "../interfaces/roles";
 import type Sector from "../interfaces/sectors";
+import type { LogVariant } from "./logger";
 
 //scripts
 import endpoints from "./endpoints";
 import classApiFetch from "./classApiFetch";
 import link from "./links";
+import logger from "./logger";
 
 export default class Users {
-    private readonly token: string;
-    public url: string;
-    public endpoints: typeof endpoints;
+    private readonly token: string
+    public url: string
+    public endpoints: typeof endpoints
+    public logger: (message: string, variant?: LogVariant) => void
 
     constructor(token: string, backendUrl: string = link) {
         if (!token) {
-            console.error("Invalid Session");
-            throw new Error("Unauthorized access. Please login");
+            console.error("Invalid Session")
+            throw new Error("Unauthorized access. Please login")
         }
 
-        this.token = token;
-        this.url = backendUrl;
-        this.endpoints = endpoints;
+        this.token = token
+        this.url = backendUrl
+        this.endpoints = endpoints
+        this.logger = logger
+    }
+
+    public stringifier(val: any) {
+        return JSON.stringify(val)
+    }
+
+    public errorLogger(err: any) {
+        throw new Error(err)
     }
 
     public apiFetch = async <T = unknown>(
         endpoint: string,
         options: RequestInit = {}
     ): Promise<T> => {
-        return classApiFetch<T>(this.url, this.token, endpoint, options);
+        return classApiFetch<T>(this.url, this.token, endpoint, options)
     };
 
     public async getRoles(): Promise<Role[]> {
@@ -41,5 +53,90 @@ export default class Users {
 
     public async getUsers() {
         return await this.apiFetch<User[]>(this.endpoints.user.get)
+    }
+
+    public async createUser(user: User) {
+        try {
+            await this.apiFetch(this.endpoints.user.post,
+                {
+                    method: "POST",
+                    body: this.stringifier(user)
+                }
+            )
+            this.logger('User created successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async createSector(sect: Sector) {
+        try {
+            await this.apiFetch(this.endpoints.sector.post,
+                {
+                    method: "POST",
+                    body: this.stringifier(sect)
+                }
+            )
+            this.logger('Sector created successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async createRole(role: Role) {
+        try {
+            await this.apiFetch(this.endpoints.sector.post,
+                {
+                    method: "POST",
+                    body: this.stringifier(role)
+                }
+            )
+            this.logger('Role created successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async approveUserStatus(id: number, status: string) {
+        try {
+            await this.apiFetch(this.endpoints.user.patch(id),
+                {
+                    method: "PATCH",
+                    body: this.stringifier(status)
+                }
+            )
+            this.logger('Status updated successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async updateSectorStatus(id: number, status: string) {
+
+        try {
+            await this.apiFetch(this.endpoints.sector.patch(id),
+                {
+                    method: "PATCH",
+                    body: this.stringifier(status)
+                }
+            )
+            this.logger('Status updated successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async updateRoleStatus(id: number, status: string) {
+        try {
+            await this.apiFetch(this.endpoints.role.patch(id),
+                {
+                    method: "PATCH",
+                    body: this.stringifier(status)
+                }
+            )
+            this.logger('Status updated successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
     }
 }

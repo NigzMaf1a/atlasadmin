@@ -1,8 +1,8 @@
-type LogVariant = 'success' | 'error' | 'warn'
+export type LogVariant = 'success' | 'error' | 'warn'
 
 export default function logger(
     message: string,
-    variant: LogVariant = 'success'
+    variant?: LogVariant
 ) {
     switch (variant) {
         case 'warn':
