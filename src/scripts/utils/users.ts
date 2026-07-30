@@ -41,6 +41,7 @@ export default class Users {
         endpoint: string,
         options: RequestInit = {}
     ): Promise<T> => {
+        console.log('Token', this.token)
         return classApiFetch<T>(this.url, this.token, endpoint, options)
     };
 
@@ -53,6 +54,7 @@ export default class Users {
     }
 
     public async getUsers() {
+        console.log('Fetching users')
         return await this.apiFetch<User[]>(this.endpoints.user.get)
     }
 

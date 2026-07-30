@@ -24,6 +24,8 @@ export default async function classApiFetch<T>(
     body: options.body
   });
 
+  console.log("Token:", token)
+
   const response = await fetch(fullUrl, {
     ...options,
     headers: mergedHeaders,

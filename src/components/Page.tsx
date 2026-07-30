@@ -24,7 +24,7 @@ function styles(): Styles {
         colors: "bg-white",
 
         // Scrollable page content
-        content: "flex overflow-y-auto",
+        content: "flex-1 flex overflow-y-auto",
 
         // Sticky search bar
         search:

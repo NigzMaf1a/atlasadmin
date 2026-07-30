@@ -1,0 +1,1 @@
+export type TextVariant = 'default' | 'caption' | 'head'

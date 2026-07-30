@@ -5,26 +5,28 @@ import type Role from "../interfaces/roles";
 
 export default class Payloads {
 
-    createUser(
+    static createUser(
         sector_id: number,
         role_id: number,
         user_name: string,
         email: string,
         reg_type: string,
-        location: string
+        location: string,
+        password: string
     ): User {
         return {
             sector_id: sector_id,
             role_id: role_id,
             user_name: user_name,
             email: email,
+            password: password,
             acc_status: 'Pending',
             reg_type: reg_type,
             location: location
         }
     }
 
-    createRole(
+    static createRole(
         sect_id: number,
         title: string
     ): Role {
@@ -35,7 +37,7 @@ export default class Payloads {
         }
     }
 
-    createSector(
+    static createSector(
         name: string,
         desc: string
     ): Sector {
