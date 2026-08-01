@@ -24,6 +24,9 @@ export default function Home() {
     const [admin, setAdmin] = useState<Users>()
     const [searchQuery, setSearchQuery] = useState<string>('')
     const [blankStyles] = useState<string>(Styles.noDataItemDivStyles())
+    const [showPending, setShowPending] = useState<boolean>(false)
+    const [showInactive, setShowInactive] = useState<boolean>(false)
+    const [showActive, setShowActive] = useState<boolean>(false)
 
     const [search] = useState<boolean>((): boolean => {
         if (users.length > 6) return true
@@ -43,9 +46,16 @@ export default function Home() {
 
                 setAdmin(a)
                 setUsers(curr_users)
+
+                setShowPending(pending.length <= 0)
+                setShowInactive(inactive.length <= 0)
+                setShowActive(active.length <= 0)
+
                 timeout = setTimeout(() => {
-                    console.log(users)
-                }, 3000)
+                    setShowPending(false)
+                    setShowInactive(false)
+                    setShowActive(false)
+                }, 10000)
 
             } catch (error) {
                 setUsers([])
@@ -106,7 +116,7 @@ export default function Home() {
             {
                 pending.length > 0 ? <CustomDiv>
                     {pending.map(u => <UserDisplayCard user={u} />)}
-                </CustomDiv> : <CustomDiv className={blankStyles}>
+                </CustomDiv> : <CustomDiv show={showPending} className={blankStyles}>
                     <Text text="No pending users found" color="yellow" />
                 </CustomDiv>
             }
@@ -114,7 +124,7 @@ export default function Home() {
             {
                 active.length > 0 ? <CustomDiv>
                     {active.map(u => <UserDisplayCard user={u} />)}
-                </CustomDiv> : <CustomDiv className={blankStyles}>
+                </CustomDiv> : <CustomDiv show={showActive} className={blankStyles}>
                     <Text text="No approved users found" color="red" />
                 </CustomDiv>
             }
@@ -122,7 +132,7 @@ export default function Home() {
             {
                 inactive.length > 0 ? <CustomDiv>
                     {inactive.map(u => <UserDisplayCard user={u} />)}
-                </CustomDiv> : <CustomDiv className={blankStyles}>
+                </CustomDiv> : <CustomDiv show={showInactive} className={blankStyles}>
                     <Text text="No inactive users found" color="red" />
                 </CustomDiv>
             }

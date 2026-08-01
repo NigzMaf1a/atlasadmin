@@ -1,6 +1,12 @@
 import type { TextVariant } from "../scripts/types/text"
 import type { Colors } from "./colors"
 
+interface ListItemStyles {
+    cont: string
+    right: string
+    left: string
+}
+
 export default class Styles {
     static form(): string {
         const pad = "px-4 py-4"
@@ -82,8 +88,9 @@ export default class Styles {
     static labelledInput(): string {
         const borders = "rounded border border-neutral-300 shadow"
         const pad = "px-2 py-4"
+        const flex = "flex flex-col gap-2"
 
-        return `${borders} ${pad}`
+        return `${borders} ${pad} ${flex}`
     }
 
     static textColors(color?: Colors) {
@@ -96,9 +103,11 @@ export default class Styles {
                 return `text-blue-500`
             case 'yellow':
                 return `text-yellow-500`
+            case 'white':
+                return `text-white`
             case 'black':
             default:
-                return `text-black-500`
+                return `text-black`
         }
     }
 
@@ -118,5 +127,55 @@ export default class Styles {
         const dim = 'w-full h-[50px]'
 
         return `${dim}`
+    }
+
+    static listItem(): ListItemStyles {
+        //cont
+        const dim = 'w-full h-[100px]'
+        const flex = 'flex flex-row justify-between items-center'
+        const border = 'border border-neutral-300 bg-white rounded-lg'
+
+        //right
+        const left = 'flex flex-col gap-3 pl-3'
+
+        //left
+        const right = 'flex flex-col justify-center items-center pr-2'
+
+        return {
+            cont: `${dim} ${flex} ${border}`,
+            right: `${right}`,
+            left: `${left}`
+        }
+    }
+
+    static tray(color?: Colors): string {
+        let bg: string
+
+        switch (color) {
+            case 'black':
+                bg = 'bg-black'
+                break
+            case 'blue':
+                bg = 'bg-blue-500'
+                break
+            case 'red':
+                bg = 'bg-red-500'
+                break
+            case 'yellow':
+                bg = 'bg-yellow-500'
+                break
+            case 'white':
+                bg = 'bg-white'
+                break
+            case 'green':
+            default:
+                bg = 'bg-green-500'
+        }
+
+        const dim = 'w-full'
+        const flex = 'flex flex-col items-center gap-1'
+        const margin = 'mt-2 py-2 px-2'
+
+        return `${bg} ${dim} ${flex} ${margin}`
     }
 }

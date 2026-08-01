@@ -16,10 +16,13 @@ import Styles from "../styles/sections"
 import Payloads from "../scripts/utils/payloads"
 import Users from "../scripts/utils/users"
 import Session from "../scripts/utils/session"
+import getRegtype from "../scripts/utils/regtype"
+import Toaster from "../scripts/utils/Toaster"
 
 //types
 import type User from "../scripts/interfaces/user"
 import type { DropDownValue } from "../components/LabelledDropdown"
+import type Role from "../scripts/interfaces/roles"
 
 interface AddUserProps {
     method: (val: User) => Promise<void>
@@ -39,6 +42,7 @@ export default function AddUser({ method }: AddUserProps) {
     const [sectorValues, setSectorValues] = useState<DropDownValue[]>([])
     const [regtypeValues, setRegtypeValues] = useState<DropDownValue[]>([])
     const [roleValues, setRoleValues] = useState<DropDownValue[]>([])
+    const [rolz, setRolz] = useState<Role[]>([])
 
     useEffect(() => {
         async function init() {
@@ -52,7 +56,13 @@ export default function AddUser({ method }: AddUserProps) {
                 }
             })
 
-            const rolVals = roles.filter(r => r.sector_id === sectorId).map((r): DropDownValue => {
+            console.log("Selected sector:", sectorId, typeof sectorId);
+
+            roles.forEach(r => {
+                console.log(r.sector_id, typeof r.sector_id);
+            });
+
+            const rolVals = roles.filter(r => Number(r.sector_id) === Number(sectorId)).map((r): DropDownValue => {
                 return {
                     label: r.role_title,
                     value: r.role_id as number
@@ -71,6 +81,7 @@ export default function AddUser({ method }: AddUserProps) {
             setRoleValues(rolVals)
             setSectorValues(sectVals)
             setRegtypeValues(regtypes)
+            setRolz(roles)
         }
 
         init()
@@ -97,6 +108,12 @@ export default function AddUser({ method }: AddUserProps) {
     function toggleAddUser() {
         setAddUser(prev => !prev)
     }
+
+    useEffect(() => {
+        if (Number(roleId)) {
+            setRegtype(getRegtype(rolz, roleId))
+        }
+    }, [roleId])
 
     return (
         <>
@@ -147,14 +164,14 @@ export default function AddUser({ method }: AddUserProps) {
 
                         <LabelledDropdown
                             value={sectorId}
-                            onChange={setSectorId as (val: string | number) => void}
+                            onChange={(value) => setSectorId(Number(value))}
                             label="Sector"
                             values={sectorValues}
                         />
 
                         <LabelledDropdown
                             value={roleId}
-                            onChange={setRoleId as (val: string | number) => void}
+                            onChange={(value) => setRoleId(Number(value))}
                             label="Role"
                             values={roleValues}
                         />
@@ -180,12 +197,32 @@ export default function AddUser({ method }: AddUserProps) {
                         <ButtonAdv
                             label="Add"
                             onClick={async () => {
+                                if (!sectorId || !roleId || !name || !email || !regtype || !location || !password) {
+                                    Toaster('Please fill in all the fields', 'info')
+                                    return
+                                }
 
                                 const user = Payloads.createUser(sectorId, roleId, name, email, regtype, location, password)
-                                await method(user)
+
+                                if (user.reg_type !== getRegtype(rolz, roleId)) {
+                                    Toaster('Reg type and role mismatch alert', 'danger')
+                                    setRegtype('')
+                                    return
+                                }
+
+                                try {
+                                    await method(user)
+                                } catch (error) {
+                                    console.log('Error that occurred', error)
+                                    Toaster('An error occurred while adding user')
+                                    setBtnClicked(false)
+                                    return
+                                }
+
                                 clearFields()
                                 toggleAddUser()
                                 setBtnClicked(false)
+                                Toaster('User added successfully', 'success')
                             }}
                             isClicked={btnClicked}
                             setIsClicked={setBtnClicked}
