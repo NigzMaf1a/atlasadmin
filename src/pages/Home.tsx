@@ -5,7 +5,6 @@ import Page from "../components/Page"
 import FancyLoad from "../views/FancyLoad"
 import AddUser from "../views/AddUser"
 import UserDisplayCard from "../views/UserDisplayCard"
-import CustomDiv from "../components/CustomDiv"
 import Text from "../components/Text"
 import Tray from "../components/Tray"
 
@@ -16,15 +15,11 @@ import type User from "../scripts/interfaces/user"
 import Users from "../scripts/utils/users"
 import Session from "../scripts/utils/session"
 
-//styles
-import Styles from "../styles/sections"
-
 export default function Home() {
     const [users, setUsers] = useState<User[]>([])
     const [loading, setLoading] = useState<boolean>(false)
     const [admin, setAdmin] = useState<Users>()
     const [searchQuery, setSearchQuery] = useState<string>('')
-    const [blankStyles] = useState<string>(Styles.noDataItemDivStyles())
     const [showPending, setShowPending] = useState<boolean>(false)
     const [showInactive, setShowInactive] = useState<boolean>(false)
     const [showActive, setShowActive] = useState<boolean>(false)
@@ -100,7 +95,6 @@ export default function Home() {
                 setShowPending(pending.length > 0)
                 setShowInactive(inactive.length > 0)
                 setShowActive(active.length > 0)
-                console.log(active.length > 0)
             }, 10000)
         }
 
@@ -125,7 +119,7 @@ export default function Home() {
 
             <Tray
                 show={showActive}
-                title="Approved users"
+                title="Approved Users"
                 title_bg_color="green"
             >
                 {

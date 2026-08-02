@@ -57,7 +57,7 @@ export default function ButtonAdv(
         const dimensions = size === 'sm' ? 'w-[90px]' : 'w-full'
         const margins = 'rounded'
 
-        return `${dimensions} ${margins}`
+        return `${dimensions} ${margins} hover:cursor-pointer`
     }
 
     function buttonClicked(): string {

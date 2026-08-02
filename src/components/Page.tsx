@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react"
+import { useLocation } from "react-router-dom";
 
 //components
-import Menu from "../navigation/Menu";
+import Menu from "../navigation/Menu"
 
 interface Styles {
     container: string;
@@ -35,7 +36,12 @@ function styles(): Styles {
 
         // Search input
         searchInput:
-            "w-full h-12 rounded-lg border border-gray-300 px-4 outline-none focus:ring-2 focus:ring-blue-500",
+            `w-full h-12 rounded-3xl 
+             border border-gray-300 px-4 
+             outline-none focus:ring-2 focus:ring-blue-500
+             flex flex-row items-center
+             px-4
+             `
     };
 }
 
@@ -48,12 +54,16 @@ export default function Page({
     className = '',
     moreSearchStyles = ''
 }: PageProps) {
+    const location = useLocation()
+    const [route] = useState<string>(location.pathname)
     const stylez = styles()
 
     return (
         <div className="w-screen h-screen flex overflow-hidden">
 
-            <Menu />
+            {
+                route !== '/login' && <Menu />
+            }
 
             <div className={`${stylez.container} ${stylez.colors} flex-1`}>
                 {showSearch && (

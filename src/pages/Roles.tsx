@@ -102,7 +102,7 @@ export default function Roles() {
 
     return (
         <Page
-            showSearch={roles.length > 5}
+            showSearch={true}
             value={searchQuery}
             setValue={setSearchQuery as (val: string | number) => void}
             className={((): string => {

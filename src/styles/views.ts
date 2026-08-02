@@ -25,13 +25,12 @@ export default class StylesForViews {
         const dim = 'w-full h-[50px] hover:cursor-pointer'
         const flex = 'flex flex-row gap-6 justify-center items-center'
         const borders = 'border border-neutral-300 rounded'
-        const theme = 'text-slate-300 hover:bg-blue-800 hover:text-white'
 
         const icon = 'w-[24px] h-[24px] border border-neutral-300 rounded-full'
         const iconFlex = 'flex justify-center items-center'
 
         return {
-            cont: `${dim} ${flex} ${borders} ${theme}`,
+            cont: `${dim} ${flex} ${borders}`,
             icon: `${icon} ${iconFlex}`
         }
     }

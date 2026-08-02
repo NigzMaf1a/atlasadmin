@@ -100,7 +100,7 @@ export default class Styles {
             case 'green':
                 return `text-green-500`
             case 'blue':
-                return `text-blue-800`
+                return `text-blue-500`
             case 'yellow':
                 return `text-yellow-800`
             case 'white':

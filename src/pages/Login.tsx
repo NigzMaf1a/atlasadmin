@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 //components
@@ -18,23 +18,40 @@ import Session from "../scripts/utils/session"
 export default function Login() {
     const [email, setEmail] = useState<string>('')
     const [password, setPassword] = useState<string>('')
+
     const navigate = useNavigate()
+
+    useEffect(() => {
+        const token = Session.getToken()
+
+        if (token !== null && token !== undefined && token.length > 0) {
+            navigate('/', { replace: true })
+        }
+    }, [navigate])
 
     async function loginUser() {
         if (!email) {
             Toaster('Please enter an email to login', 'info')
+            return
         }
 
         if (!password) {
             Toaster('Please enter a password to login', 'info')
+            return
         }
+
         const { token, user } = await login(email, password)
+
         Toaster('Login successful', 'success')
+
         Session.storeToken(token)
         Session.storeUser(user)
-        setTimeout(() => navigate('/'), 1500)
+
         resetFields()
 
+        setTimeout(() => {
+            navigate('/', { replace: true })
+        }, 1500)
     }
 
     function resetFields() {
@@ -65,6 +82,7 @@ export default function Login() {
                         onClick={() => loginUser()}
                         btn_type="primary"
                         color="info"
+                        size="lg"
                     />
                 </CustomDiv>
             </CustomDiv>
