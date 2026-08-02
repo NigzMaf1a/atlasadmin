@@ -23,7 +23,6 @@ export default function MenuItem(
             className={StylesForViews.menuItem().cont}
             onClick={() => navigate(route)}
         >
-            <Text text={label} />
 
             <CustomDiv className={StylesForViews.menuItem().icon}>
                 <img
@@ -32,6 +31,8 @@ export default function MenuItem(
                     className="w-full h-full"
                 />
             </CustomDiv>
+
+            <Text text={label} />
         </CustomDiv>
     )
 }

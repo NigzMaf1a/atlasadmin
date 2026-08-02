@@ -96,13 +96,13 @@ export default class Styles {
     static textColors(color?: Colors) {
         switch (color) {
             case 'red':
-                return `text-red-500`
+                return `text-red-800`
             case 'green':
-                return `text-green-500`
+                return `text-green-800`
             case 'blue':
-                return `text-blue-500`
+                return `text-blue-800`
             case 'yellow':
-                return `text-yellow-500`
+                return `text-yellow-800`
             case 'white':
                 return `text-white`
             case 'black':
