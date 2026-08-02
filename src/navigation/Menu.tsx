@@ -14,6 +14,7 @@ export default function Menu() {
             <MenuItem label="Home" icon="./favicon.svg" route="/" />
             <MenuItem label="Sectors" icon="./favicon.svg" route="/sectors" />
             <MenuItem label="Roles" icon="./favicon.svg" route="/roles" />
+            <MenuItem label="About" icon="./favicon.svg" route="/about" />
         </CustomDiv>
     )
 }

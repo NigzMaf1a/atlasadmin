@@ -1,14 +1,16 @@
 //types
-import type User from "../interfaces/user";
-import type Role from "../interfaces/roles";
-import type Sector from "../interfaces/sectors";
-import type { LogVariant } from "./logger";
+import type User from "../interfaces/user"
+import type Role from "../interfaces/roles"
+import type Sector from "../interfaces/sectors"
+import type { LogVariant } from "./logger"
+import type About from "../interfaces/about"
+import type Contact from "../interfaces/contact"
 
 //scripts
-import endpoints from "./endpoints";
-import classApiFetch from "./classApiFetch";
-import link from "./links";
-import logger from "./logger";
+import endpoints from "./endpoints"
+import classApiFetch from "./classApiFetch"
+import link from "./links"
+import logger from "./logger"
 
 export default class Users {
     private readonly token: string
@@ -56,6 +58,14 @@ export default class Users {
     public async getUsers() {
         console.log('Fetching users')
         return await this.apiFetch<User[]>(this.endpoints.user.get)
+    }
+
+    public async getAbout() {
+        return await this.apiFetch<About[]>(this.endpoints.about.get)
+    }
+
+    public async getContact() {
+        return await this.apiFetch<Contact[]>(this.endpoints.contact.get)
     }
 
     public async createUser(user: User) {
@@ -138,6 +148,34 @@ export default class Users {
                 }
             )
             this.logger('Status updated successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async updateAbout(id: number, detail: string) {
+        try {
+            await this.apiFetch(this.endpoints.about.patch(id),
+                {
+                    method: "PATCH",
+                    body: this.stringifier(detail)
+                }
+            )
+            this.logger('About updated successfully')
+        } catch (error) {
+            this.errorLogger(error)
+        }
+    }
+
+    public async updateContact(id: number, contact: Contact) {
+        try {
+            await this.apiFetch(this.endpoints.contact.patch(id),
+                {
+                    method: "PATCH",
+                    body: this.stringifier(contact)
+                }
+            )
+            this.logger('Contact updated successfully')
         } catch (error) {
             this.errorLogger(error)
         }

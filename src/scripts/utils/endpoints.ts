@@ -23,6 +23,14 @@ const endpoints = {
     task_alloc: {
         post: '/api/alloc/post',
         get: '/api/alloc/get'
+    },
+    about: {
+        get: '/api/about/get',
+        patch: (id: number) => `/api/about/patch/${id}`
+    },
+    contact: {
+        get: '/api/contact/get',
+        patch: (id: number) => `/api/contact/patch/${id}`
     }
 }
 

@@ -1,5 +1,13 @@
+//components
+import Page from "../components/Page"
+import Tray from "../components/Tray"
+
 export default function About() {
     return (
-        <div>About</div>
+        <Page>
+            <Tray>
+                About
+            </Tray>
+        </Page>
     )
 }
