@@ -5,7 +5,9 @@ import CustomDiv from "../components/CustomDiv"
 import Modal from "../components/Modal"
 import LabelledText from "../components/LabelledText"
 import ButtonAdv from "../components/ButtonAdv"
+import ListItemWithBtn from "../components/ListItemWithBtn"
 
+//scripts
 import type User from "../scripts/interfaces/user"
 import UserUtils from "../scripts/utils/user"
 import Styles from "../styles/sections"
@@ -53,41 +55,19 @@ export default function UserDisplayCard({ user }: Props) {
 
     return (
         <>
-            <CustomDiv className={((): string => {
-                const dimensions = 'w-screen h-[100px]'
-                const border = 'border border-neutral-200'
-                const flex = 'flex flex-row justify-between items-center'
-                const margin = 'mx-4'
-
-                return `${dimensions} ${border} ${flex} ${margin}`
-            })()}>
-
-                <CustomDiv className={((): string => {
-                    const flex = 'flex flex-col gap-2'
-
-                    return `${flex}`
-                })()}>
-                    <LabelledText label="Sector" text={sector} />
-                    <LabelledText label="Name" text={user.user_name} />
-                </CustomDiv>
-
-                <CustomDiv className={((): string => {
-                    const padding = 'px-2'
-
-                    return `${padding}`
-                })()}>
-                    <ButtonAdv
-                        label="View"
-                        onClick={() => toggleMOdal()}
-                        color={
-                            user.acc_status === 'Approved' ? 'success' :
-                                user.acc_status === 'Inactive' ? 'danger' :
-                                    'warn'
-                        }
-                    />
-                </CustomDiv>
-
-            </CustomDiv>
+            <ListItemWithBtn
+                label_one="Sector"
+                text_one={sector}
+                label_two="User Name"
+                text_two={user.user_name}
+                btn_label="View"
+                onClick={() => toggleMOdal()}
+                btn_color={
+                    user.acc_status === 'Approved' ? 'success' :
+                        user.acc_status === 'Inactive' ? 'danger' :
+                            'warn'
+                }
+            />
 
             <Modal showModal={showModal} onClose={() => setShowModal(false)}>
                 <CustomDiv className={Styles.form()}>

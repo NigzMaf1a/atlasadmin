@@ -35,7 +35,6 @@ export default function Home() {
     })
 
     useEffect(() => {
-        let timeout: ReturnType<typeof setTimeout>
 
         async function init() {
 
@@ -52,12 +51,6 @@ export default function Home() {
                 setShowInactive(inactive.length <= 0)
                 setShowActive(active.length <= 0)
 
-                timeout = setTimeout(() => {
-                    setShowPending(false)
-                    setShowInactive(false)
-                    setShowActive(false)
-                }, 10000)
-
             } catch (error) {
                 setUsers([])
                 throw new Error("An error occurred while initializing home")
@@ -67,12 +60,6 @@ export default function Home() {
         }
 
         init()
-
-        return () => {
-            if (timeout) {
-                clearTimeout(timeout)
-            }
-        }
     }, [])
 
     const active = useMemo(() => {
@@ -105,6 +92,27 @@ export default function Home() {
         )
     }, [users, searchQuery])
 
+    useEffect(() => {
+        let timeout: ReturnType<typeof setTimeout>
+
+        function display() {
+            timeout = setTimeout(() => {
+                setShowPending(pending.length > 0)
+                setShowInactive(inactive.length > 0)
+                setShowActive(active.length > 0)
+                console.log(active.length > 0)
+            }, 10000)
+        }
+
+        display()
+
+        return () => {
+            if (timeout) {
+                clearTimeout(timeout)
+            }
+        }
+    }, [active, pending, inactive])
+
     return (
         <Page
             showSearch={search}
@@ -115,33 +123,36 @@ export default function Home() {
             <FancyLoad loading={loading} />
             <AddUser method={admin?.createUser as ((val: User) => Promise<void>)} />
 
-            <Tray>
+            <Tray
+                show={showActive}
+                title="Approved users"
+                title_bg_color="green"
+            >
                 {
-                    pending.length > 0 ? <CustomDiv>
-                        {pending.map(u => <UserDisplayCard user={u} />)}
-                    </CustomDiv> : <CustomDiv show={showPending} className={blankStyles}>
-                        <Text text="No pending users found" color="yellow" />
-                    </CustomDiv>
+                    active.length > 0 ? active.map(u => <UserDisplayCard user={u} />) :
+                        <Text text="No approved users found" color="white" />
                 }
             </Tray>
 
-            <Tray>
+            <Tray
+                show={showPending}
+                title="Pending Users"
+                title_bg_color="yellow"
+            >
                 {
-                    active.length > 0 ? <CustomDiv>
-                        {active.map(u => <UserDisplayCard user={u} />)}
-                    </CustomDiv> : <CustomDiv show={showActive} className={blankStyles}>
-                        <Text text="No approved users found" color="red" />
-                    </CustomDiv>
+                    pending.length > 0 ? pending.map(u => <UserDisplayCard user={u} />) :
+                        <Text text="No pending users found" color="black" />
                 }
             </Tray>
 
-            <Tray>
+            <Tray
+                show={showInactive}
+                title="Disabled Users"
+                title_bg_color="red"
+            >
                 {
-                    inactive.length > 0 ? <CustomDiv>
-                        {inactive.map(u => <UserDisplayCard user={u} />)}
-                    </CustomDiv> : <CustomDiv show={showInactive} className={blankStyles}>
-                        <Text text="No inactive users found" color="red" />
-                    </CustomDiv>
+                    inactive.length > 0 ? inactive.map(u => <UserDisplayCard user={u} />) :
+                        <Text text="No inactive users found" color="white" />
                 }
             </Tray>
         </Page>

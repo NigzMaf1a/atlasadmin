@@ -98,7 +98,7 @@ export default class Styles {
             case 'red':
                 return `text-red-800`
             case 'green':
-                return `text-green-800`
+                return `text-green-500`
             case 'blue':
                 return `text-blue-800`
             case 'yellow':
