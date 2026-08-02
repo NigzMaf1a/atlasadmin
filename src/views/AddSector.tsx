@@ -74,7 +74,11 @@ export default function AddSector(
             }
             <Modal
                 showModal={showModal}
-                onClose={() => setShowModal(false)}
+                onClose={() => {
+                    setDescription('')
+                    setName('')
+                    setShowModal(false)
+                }}
             >
                 <CustomDiv className={Styles.form()}>
                     <LabelledInput

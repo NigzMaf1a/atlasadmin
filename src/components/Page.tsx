@@ -1,5 +1,8 @@
 import React from "react";
 
+//components
+import Menu from "../navigation/Menu";
+
 interface Styles {
     container: string;
     colors: string;
@@ -48,22 +51,28 @@ export default function Page({
     const stylez = styles()
 
     return (
-        <div className={`${stylez.container} ${stylez.colors}`}>
-            {showSearch && (
-                <div className={`${stylez.search} ${moreSearchStyles}`}>
-                    <input
-                        className={stylez.searchInput}
-                        type="text"
-                        value={value}
-                        placeholder={searchPlaceholder}
-                        onChange={(e) => setValue?.(e.target.value)}
-                    />
-                </div>
-            )}
+        <div className="w-screen h-screen flex overflow-hidden">
 
-            <div className={`${stylez.content} ${className}`}>
-                {children}
+            <Menu />
+
+            <div className={`${stylez.container} ${stylez.colors} flex-1`}>
+                {showSearch && (
+                    <div className={`${stylez.search} ${moreSearchStyles}`}>
+                        <input
+                            className={stylez.searchInput}
+                            type="text"
+                            value={value}
+                            placeholder={searchPlaceholder}
+                            onChange={(e) => setValue?.(e.target.value)}
+                        />
+                    </div>
+                )}
+
+                <div className={`${stylez.content} ${className}`}>
+                    {children}
+                </div>
             </div>
+
         </div>
     )
 }

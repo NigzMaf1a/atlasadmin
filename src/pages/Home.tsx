@@ -7,6 +7,7 @@ import AddUser from "../views/AddUser"
 import UserDisplayCard from "../views/UserDisplayCard"
 import CustomDiv from "../components/CustomDiv"
 import Text from "../components/Text"
+import Tray from "../components/Tray"
 
 //types
 import type User from "../scripts/interfaces/user"
@@ -113,29 +114,36 @@ export default function Home() {
         >
             <FancyLoad loading={loading} />
             <AddUser method={admin?.createUser as ((val: User) => Promise<void>)} />
-            {
-                pending.length > 0 ? <CustomDiv>
-                    {pending.map(u => <UserDisplayCard user={u} />)}
-                </CustomDiv> : <CustomDiv show={showPending} className={blankStyles}>
-                    <Text text="No pending users found" color="yellow" />
-                </CustomDiv>
-            }
 
-            {
-                active.length > 0 ? <CustomDiv>
-                    {active.map(u => <UserDisplayCard user={u} />)}
-                </CustomDiv> : <CustomDiv show={showActive} className={blankStyles}>
-                    <Text text="No approved users found" color="red" />
-                </CustomDiv>
-            }
+            <Tray>
+                {
+                    pending.length > 0 ? <CustomDiv>
+                        {pending.map(u => <UserDisplayCard user={u} />)}
+                    </CustomDiv> : <CustomDiv show={showPending} className={blankStyles}>
+                        <Text text="No pending users found" color="yellow" />
+                    </CustomDiv>
+                }
+            </Tray>
 
-            {
-                inactive.length > 0 ? <CustomDiv>
-                    {inactive.map(u => <UserDisplayCard user={u} />)}
-                </CustomDiv> : <CustomDiv show={showInactive} className={blankStyles}>
-                    <Text text="No inactive users found" color="red" />
-                </CustomDiv>
-            }
+            <Tray>
+                {
+                    active.length > 0 ? <CustomDiv>
+                        {active.map(u => <UserDisplayCard user={u} />)}
+                    </CustomDiv> : <CustomDiv show={showActive} className={blankStyles}>
+                        <Text text="No approved users found" color="red" />
+                    </CustomDiv>
+                }
+            </Tray>
+
+            <Tray>
+                {
+                    inactive.length > 0 ? <CustomDiv>
+                        {inactive.map(u => <UserDisplayCard user={u} />)}
+                    </CustomDiv> : <CustomDiv show={showInactive} className={blankStyles}>
+                        <Text text="No inactive users found" color="red" />
+                    </CustomDiv>
+                }
+            </Tray>
         </Page>
     )
 }
