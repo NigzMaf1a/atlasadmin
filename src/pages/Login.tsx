@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 
 //components
@@ -20,14 +20,6 @@ export default function Login() {
     const [password, setPassword] = useState<string>('')
 
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const token = Session.getToken()
-
-        if (token !== null && token !== undefined && token.length > 0) {
-            navigate('/', { replace: true })
-        }
-    }, [navigate])
 
     async function loginUser() {
         if (!email) {
