@@ -6,6 +6,7 @@ import ListItemWithBtn from "../components/ListItemWithBtn"
 import Tray from "../components/Tray"
 import FancyLoad from "../views/FancyLoad"
 import Text from "../components/Text"
+import AddRolePrompt from "../views/AddRolePrompt"
 
 //types
 import type Role from "../scripts/interfaces/roles"
@@ -110,6 +111,11 @@ export default function Roles() {
             })()}
         >
             <FancyLoad loading={loading} />
+
+            {
+                !loading && <AddRolePrompt />
+            }
+
             <Tray
                 show={showActive}
                 color={active.length === 0 ? 'green' : 'white'}

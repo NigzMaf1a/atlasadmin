@@ -8,6 +8,7 @@ import Logout from "./pages/Logout"
 import Sectors from "./pages/Sectors"
 import Roles from "./pages/Roles"
 import Contacts from "./pages/Contacts"
+import AddRole from "./pages/AddRole"
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
         <Route path="/logout" element={<Logout />} />
         <Route path="/sectors" element={<Sectors />} />
         <Route path="/roles" element={<Roles />} />
+        <Route path="/roles/add" element={<AddRole />} />
         <Route path="/contacts" element={<Contacts />} />
       </Routes>
 
