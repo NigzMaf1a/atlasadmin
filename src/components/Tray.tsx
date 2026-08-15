@@ -10,24 +10,26 @@ import Styles from "../styles/sections"
 //types
 import type { Colors } from "../styles/colors"
 
-interface Props {
+interface Props<T> {
     children: React.ReactNode
     className?: string
     show?: boolean
     color?: Colors
+    data: T[],
     title?: string
     title_bg_color?: Colors
 }
 
-export default function Tray(
+export default function Tray<T>(
     {
         children,
         className = '',
         show = true,
         color = 'white',
+        data,
         title = '',
         title_bg_color = 'white'
-    }: Props
+    }: Props<T>
 ) {
     const [showTitle, setShowTitle] = useState<boolean>(false)
 
@@ -69,7 +71,7 @@ export default function Tray(
             show={show}
         >
             {
-                showTitle && title && (
+                showTitle && title && data.length > 0 && (
                     <CustomDiv
                         className={(() => {
                             const defaults = 'rounded-lg w-full flex justify-center items-center'

@@ -139,6 +139,7 @@ export default function Sectors() {
                 <Tray
                     show={showActive}
                     color="white"
+                    data={active}
                     className={active.length === 0 ? 'bg-green-500 rounded-lg' : ''}
                     title="Approved"
                     title_bg_color="green"
@@ -164,6 +165,7 @@ export default function Sectors() {
                     color="white"
                     className={pending.length === 0 ? 'bg-yellow-500 rounded-lg' : ''}
                     title="Pending"
+                    data={pending}
                     title_bg_color="yellow"
                 >
                     {
@@ -186,6 +188,7 @@ export default function Sectors() {
                     show={showInactive}
                     color={inactive.length === 0 ? 'red' : 'white'}
                     className={inactive.length === 0 ? 'rounded-lg' : ''}
+                    data={inactive}
                 >
                     {
                         inactive.length > 0 ? inactive.map((a) => <ListItemWithBtn

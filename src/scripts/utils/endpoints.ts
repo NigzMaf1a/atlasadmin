@@ -30,7 +30,7 @@ const endpoints = {
     },
     contact: {
         get: '/api/contact/get',
-        patch: (id: number) => `/api/contact/patch/${id}`
+        patch: (id: string) => `/api/contact/patch/${id}`
     }
 }
 

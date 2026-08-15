@@ -121,6 +121,7 @@ export default function Roles() {
                 color={active.length === 0 ? 'green' : 'white'}
                 title="Approved Roles"
                 title_bg_color="green"
+                data={active}
                 className={active.length === 0 ? 'rounded-lg' : ''}
             >
                 {
@@ -140,6 +141,7 @@ export default function Roles() {
                 show={showPending}
                 color={pending.length === 0 ? 'yellow' : 'white'}
                 title="Pending Roles"
+                data={pending}
                 title_bg_color="yellow"
                 className={pending.length === 0 ? 'rounded-lg' : ''}
             >
@@ -160,6 +162,7 @@ export default function Roles() {
                 color={inactive.length === 0 ? 'red' : 'white'}
                 title="Inactive Roles"
                 title_bg_color="red"
+                data={inactive}
                 className={inactive.length === 0 ? 'rounded-lg' : ''}
             >
                 {

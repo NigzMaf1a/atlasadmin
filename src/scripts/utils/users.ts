@@ -167,7 +167,7 @@ export default class Users {
         }
     }
 
-    public async updateContact(id: number, contact: Contact) {
+    public async updateContact(id: string, contact: Contact) {
         try {
             await this.apiFetch(this.endpoints.contact.patch(id),
                 {
@@ -177,7 +177,7 @@ export default class Users {
             )
             this.logger('Contact updated successfully')
         } catch (error) {
-            this.errorLogger(error)
+            console.error(error)
         }
     }
 }

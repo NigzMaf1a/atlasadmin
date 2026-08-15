@@ -121,6 +121,7 @@ export default function Home() {
                 show={showActive}
                 title="Approved Users"
                 title_bg_color="green"
+                data={active}
             >
                 {
                     active.length > 0 ? active.map(u => <UserDisplayCard user={u} />) :
@@ -132,6 +133,7 @@ export default function Home() {
                 show={showPending}
                 title="Pending Users"
                 title_bg_color="yellow"
+                data={pending}
             >
                 {
                     pending.length > 0 ? pending.map(u => <UserDisplayCard user={u} />) :
@@ -143,6 +145,7 @@ export default function Home() {
                 show={showInactive}
                 title="Disabled Users"
                 title_bg_color="red"
+                data={inactive}
             >
                 {
                     inactive.length > 0 ? inactive.map(u => <UserDisplayCard user={u} />) :

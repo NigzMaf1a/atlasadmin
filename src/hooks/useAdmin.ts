@@ -24,6 +24,7 @@ interface AdminInit {
     addRole: (role: Role) => Promise<void>
     addSector: (sector: Sector) => Promise<void>
     addUser: (user: User) => Promise<void>
+    updateContact: (id: string, contact: Contact) => Promise<void>
 }
 
 export default function useAdmin(): AdminInit {
@@ -80,6 +81,13 @@ export default function useAdmin(): AdminInit {
         users: users,
         addRole: adm?.createRole as (role: Role) => Promise<void>,
         addSector: adm?.createSector as (sector: Sector) => Promise<void>,
-        addUser: adm?.createUser as (user: User) => Promise<void>
+        addUser: adm?.createUser as (user: User) => Promise<void>,
+        updateContact: async (id, contact) => {
+            if (!adm) {
+                throw new Error("Admin is not initialized")
+            }
+
+            await adm.updateContact(id, contact)
+        }
     }
 }
