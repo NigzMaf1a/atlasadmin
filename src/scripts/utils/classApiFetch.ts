@@ -6,8 +6,8 @@ export default async function classApiFetch<T>(
 ): Promise<T> {
 
   if (!token) {
-    console.error("Invalid token");
-    throw new Error("Unauthorized access");
+    console.error("Invalid token")
+    throw new Error("Unauthorized access")
   }
 
   const fullUrl = `${baseUrl.replace(/\/$/, "")}/${endpoint.replace(/^\//, "")}`;
@@ -33,12 +33,19 @@ export default async function classApiFetch<T>(
 
   if (!response.ok) {
     const body = await response.text().catch(() => "");
-    throw new Error(`Fetch failed: ${response.status} ${response.statusText} ${body}`);
+    throw new Error(
+      `Fetch failed: ${response.status} ${response.statusText} ${body}`
+    )
   }
 
-  if (response.status === 204) {
-    return undefined as T;
+  // Read the response body once
+  const body = await response.text()
+
+  // Empty response
+  if (!body.trim()) {
+    return undefined as T
   }
 
-  return (await response.json()) as T;
+  // JSON response
+  return JSON.parse(body) as T
 }

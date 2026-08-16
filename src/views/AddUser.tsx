@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-
+import { useNavigate } from "react-router-dom"
 
 //components
 import Rib from "../components/Rib"
@@ -43,6 +43,8 @@ export default function AddUser({ method }: AddUserProps) {
     const [regtypeValues, setRegtypeValues] = useState<DropDownValue[]>([])
     const [roleValues, setRoleValues] = useState<DropDownValue[]>([])
     const [rolz, setRolz] = useState<Role[]>([])
+
+    const navigate = useNavigate()
 
     useEffect(() => {
         async function init() {
@@ -122,7 +124,7 @@ export default function AddUser({ method }: AddUserProps) {
                     AddUser
                     <ButtonAdv
                         label="Add"
-                        onClick={() => toggleAddUser()}
+                        onClick={() => navigate('/user/add')}
                     />
                 </CustomDiv>
             </Rib>

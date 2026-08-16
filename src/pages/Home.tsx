@@ -1,4 +1,6 @@
+//hooks
 import { useState, useEffect, useMemo } from "react"
+import useAdmin from "../hooks/useAdmin"
 
 //components
 import Page from "../components/Page"
@@ -11,18 +13,15 @@ import Tray from "../components/Tray"
 //types
 import type User from "../scripts/interfaces/user"
 
-//scripts
-import Users from "../scripts/utils/users"
-import Session from "../scripts/utils/session"
-
 export default function Home() {
     const [users, setUsers] = useState<User[]>([])
     const [loading, setLoading] = useState<boolean>(false)
-    const [admin, setAdmin] = useState<Users>()
     const [searchQuery, setSearchQuery] = useState<string>('')
     const [showPending, setShowPending] = useState<boolean>(false)
     const [showInactive, setShowInactive] = useState<boolean>(false)
     const [showActive, setShowActive] = useState<boolean>(false)
+
+    const admin = useAdmin()
 
     const [search] = useState<boolean>((): boolean => {
         if (users.length > 6) return true
@@ -35,12 +34,7 @@ export default function Home() {
 
             try {
                 setLoading(true)
-                const a = new Users(Session.getToken())
-                const curr_users = await a.getUsers()
-                console.log('Current users:', curr_users)
-
-                setAdmin(a)
-                setUsers(curr_users)
+                setUsers(admin.users)
 
                 setShowPending(pending.length <= 0)
                 setShowInactive(inactive.length <= 0)
@@ -59,33 +53,33 @@ export default function Home() {
 
     const active = useMemo(() => {
         const query = searchQuery.trim().toLowerCase()
-        if (!query) return users.filter(u => u.acc_status === 'Approved')
-        return users.filter(u => u.acc_status === 'Approved').filter((user) =>
+        if (!query) return admin.users.filter(u => u.acc_status === 'Approved')
+        return admin.users.filter(u => u.acc_status === 'Approved').filter((user) =>
             Object.values(user).some((value) =>
                 String(value).toLowerCase().includes(query)
             )
         )
-    }, [users, searchQuery])
+    }, [admin.users, searchQuery])
 
     const pending = useMemo(() => {
         const query = searchQuery.trim().toLowerCase()
-        if (!query) return users.filter(u => u.acc_status === 'Pending')
-        return users.filter(u => u.acc_status === 'Pending').filter((user) =>
+        if (!query) return admin.users.filter(u => u.acc_status === 'Pending')
+        return admin.users.filter(u => u.acc_status === 'Pending').filter((user) =>
             Object.values(user).some((value) =>
                 String(value).toLowerCase().includes(query)
             )
         )
-    }, [users, searchQuery])
+    }, [admin.users, searchQuery])
 
     const inactive = useMemo(() => {
         const query = searchQuery.trim().toLowerCase()
-        if (!query) return users.filter(u => u.acc_status === 'Inactive')
-        return users.filter(u => u.acc_status === 'Inactive').filter((user) =>
+        if (!query) return admin.users.filter(u => u.acc_status === 'Inactive')
+        return admin.users.filter(u => u.acc_status === 'Inactive').filter((user) =>
             Object.values(user).some((value) =>
                 String(value).toLowerCase().includes(query)
             )
         )
-    }, [users, searchQuery])
+    }, [admin.users, searchQuery])
 
     useEffect(() => {
         let timeout: ReturnType<typeof setTimeout>
@@ -115,7 +109,7 @@ export default function Home() {
             setValue={setSearchQuery as (val: string | number) => void}
         >
             <FancyLoad loading={loading} />
-            <AddUser method={admin?.createUser as ((val: User) => Promise<void>)} />
+            <AddUser method={admin?.addUser as ((val: User) => Promise<void>)} />
 
             <Tray
                 show={showActive}

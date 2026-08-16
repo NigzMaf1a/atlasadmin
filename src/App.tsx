@@ -9,6 +9,7 @@ import Sectors from "./pages/Sectors"
 import Roles from "./pages/Roles"
 import Contacts from "./pages/Contacts"
 import AddRole from "./pages/AddRole"
+import AddUserPage from "./pages/AddUserPage"
 
 export default function App() {
   return (
@@ -22,6 +23,7 @@ export default function App() {
         <Route path="/roles" element={<Roles />} />
         <Route path="/roles/add" element={<AddRole />} />
         <Route path="/contacts" element={<Contacts />} />
+        <Route path="/user/add" element={<AddUserPage />} />
       </Routes>
 
       <HotToaster

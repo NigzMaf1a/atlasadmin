@@ -83,7 +83,7 @@ export default function UpdateContact(
 
         await update(String(cont.contact_id), contact)
 
-        Toaster('Contact updated successfully')
+        Toaster('Contact updated successfully', 'success')
     }
 
     return (
