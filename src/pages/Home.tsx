@@ -109,7 +109,7 @@ export default function Home() {
             setValue={setSearchQuery as (val: string | number) => void}
         >
             <FancyLoad loading={loading} />
-            <AddUser method={admin?.addUser as ((val: User) => Promise<void>)} />
+            <AddUser />
 
             <Tray
                 show={showActive}

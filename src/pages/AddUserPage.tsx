@@ -5,10 +5,10 @@ import useAdmin from "../hooks/useAdmin"
 
 // components
 import Page from "../components/Page"
-import CustomDiv from "../components/CustomDiv"
 import LabelledInput from "../components/LabelledInput"
 import LabelledDropdown from "../components/LabelledDropdown"
 import ButtonAdv from "../components/ButtonAdv"
+import FancyLoad from "../views/FancyLoad"
 
 // shadcn
 import {
@@ -17,9 +17,6 @@ import {
     CardContent,
     CardFooter,
 } from "../components/ui/card"
-
-// styles
-import Styles from "../styles/sections"
 
 // types
 import type { DropDownValue } from "../components/LabelledDropdown"
@@ -30,10 +27,6 @@ import Payloads from "../scripts/utils/payloads"
 import getRegtype from "../scripts/utils/regtype"
 
 export default function AddUserPage() {
-    // --------------------------------------------------
-    // Form state
-    // --------------------------------------------------
-
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -41,25 +34,12 @@ export default function AddUserPage() {
     const [sectorId, setSectorId] = useState<number>(0)
     const [roleId, setRoleId] = useState<number>(0)
     const [regtype, setRegtype] = useState("")
-
     const [btnClicked, setBtnClicked] = useState(false)
-
-    // --------------------------------------------------
-    // Hooks
-    // --------------------------------------------------
 
     const admin = useAdmin()
     const navigate = useNavigate()
 
-    // --------------------------------------------------
-    // Admin data
-    // --------------------------------------------------
-
     const { roles, sectors, loading } = admin
-
-    // --------------------------------------------------
-    // Dropdown values
-    // --------------------------------------------------
 
     const sectorValues: DropDownValue[] = sectors.map((sector) => ({
         label: sector.sector_name,
@@ -78,10 +58,6 @@ export default function AddUserPage() {
         value: role.label,
     }))
 
-    // --------------------------------------------------
-    // Form helpers
-    // --------------------------------------------------
-
     function clearFields() {
         setName("")
         setEmail("")
@@ -96,9 +72,6 @@ export default function AddUserPage() {
         const newSectorId = Number(value)
 
         setSectorId(newSectorId)
-
-        // Role and registration type depend on the sector.
-        // Changing sector invalidates both.
         setRoleId(0)
         setRegtype("")
     }
@@ -107,8 +80,6 @@ export default function AddUserPage() {
         const newRoleId = Number(value)
 
         setRoleId(newRoleId)
-
-        // Registration type depends on the role.
         setRegtype("")
     }
 
@@ -128,10 +99,6 @@ export default function AddUserPage() {
 
         return true
     }
-
-    // --------------------------------------------------
-    // Submit
-    // --------------------------------------------------
 
     async function handleSubmit() {
         if (btnClicked) {
@@ -187,119 +154,92 @@ export default function AddUserPage() {
         }
     }
 
-    // --------------------------------------------------
-    // Loading state
-    // --------------------------------------------------
-
     if (loading) {
         return (
             <Page>
-                <Card>
-                    <CardContent>
-                        <CustomDiv className="flex min-h-[200px] items-center justify-center">
-                            Loading...
-                        </CustomDiv>
-                    </CardContent>
-                </Card>
+                <FancyLoad loading={loading} />
             </Page>
         )
     }
 
-    // --------------------------------------------------
-    // Render
-    // --------------------------------------------------
-
     return (
         <Page>
-            <Card>
-                <CardHeader />
+            <Card className="w-full h-full">
+                <CardHeader className="w-full"></CardHeader>
 
-                <CardContent>
-                    <CustomDiv className={Styles.form()}>
+                <CardContent className="w-full h-[90%] grid grid-cols-2 gap-2">
 
-                        <CustomDiv
-                            className={Styles.itemsContainerInaForm()}
-                        >
+                    <LabelledInput
+                        value={name}
+                        onChange={setName}
+                        label="Name"
+                        placeholder="Enter a name here"
+                    />
 
-                            <LabelledInput
-                                value={name}
-                                onChange={setName}
-                                label="Name"
-                                placeholder="Enter a name here"
-                            />
+                    <LabelledInput
+                        value={email}
+                        onChange={setEmail}
+                        label="Email"
+                        placeholder="Enter an email here"
+                    />
 
-                            <LabelledInput
-                                value={email}
-                                onChange={setEmail}
-                                label="Email"
-                                placeholder="Enter an email here"
-                            />
+                    <LabelledInput
+                        value={password}
+                        onChange={setPassword}
+                        label="Password"
+                        placeholder="Enter a password here"
+                    />
 
-                            <LabelledInput
-                                value={password}
-                                onChange={setPassword}
-                                label="Password"
-                                placeholder="Enter a password here"
-                            />
+                    <LabelledInput
+                        value={location}
+                        onChange={setLocation}
+                        label="Location"
+                        placeholder="Enter a location here"
+                    />
 
-                            <LabelledInput
-                                value={location}
-                                onChange={setLocation}
-                                label="Location"
-                                placeholder="Enter a location here"
-                            />
+                    <LabelledDropdown
+                        value={sectorId}
+                        onChange={handleSectorChange}
+                        label="Sector"
+                        values={sectorValues}
+                    />
 
-                            <LabelledDropdown
-                                value={sectorId}
-                                onChange={handleSectorChange}
-                                label="Sector"
-                                values={sectorValues}
-                            />
+                    <LabelledDropdown
+                        value={roleId}
+                        onChange={handleRoleChange}
+                        label="Role"
+                        values={roleValues}
+                    />
 
-                            <LabelledDropdown
-                                value={roleId}
-                                onChange={handleRoleChange}
-                                label="Role"
-                                values={roleValues}
-                            />
-
-                            <LabelledDropdown
-                                value={regtype}
-                                onChange={(value) => {
-                                    setRegtype(String(value))
-                                }}
-                                label="Reg Type"
-                                values={regtypeValues}
-                            />
-
-                        </CustomDiv>
-
-                        <CustomDiv className={Styles.formFooter()}>
-
-                            <ButtonAdv
-                                label="Back"
-                                onClick={() => navigate(-1)}
-                                color="info"
-                                btn_type="secondary"
-                                size="sm"
-                            />
-
-                            <ButtonAdv
-                                label="Add"
-                                onClick={handleSubmit}
-                                isClicked={btnClicked}
-                                setIsClicked={setBtnClicked}
-                                color="success"
-                                btn_type="secondary"
-                                size="sm"
-                            />
-
-                        </CustomDiv>
-
-                    </CustomDiv>
+                    <LabelledDropdown
+                        value={regtype}
+                        onChange={(value) => {
+                            setRegtype(String(value))
+                        }}
+                        label="Reg Type"
+                        values={regtypeValues}
+                    />
                 </CardContent>
 
-                <CardFooter />
+                <CardFooter className="w-full h-[10%] flex flex-row justify-evenly items-center">
+                    <ButtonAdv
+                        label="Back"
+                        onClick={() => navigate(-1)}
+                        color="info"
+                        btn_type="secondary"
+                        size="sm"
+                    />
+
+                    <ButtonAdv
+                        label="Add"
+                        onClick={handleSubmit}
+                        isClicked={btnClicked}
+                        setIsClicked={setBtnClicked}
+                        color="success"
+                        btn_type="secondary"
+                        size="sm"
+                    />
+                </CardFooter>
             </Card>
         </Page>
     )
